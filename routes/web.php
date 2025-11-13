@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\NotaController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,8 +18,11 @@ Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name
 
 Route::put('/comments/{comment}', [CommentController::class, 'update'])
     ->name('comments.update')
-    ->middleware('auth'); 
+    ->middleware('auth');
 
 Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])
     ->name('comments.destroy')
     ->middleware('auth');
+
+Route::get('/notas', [NotaController::class, 'index'])->name('notas.index');
+Route::post('/notas', [NotaController::class, 'store'])->name('notas.store');
