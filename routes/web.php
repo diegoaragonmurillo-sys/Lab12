@@ -26,3 +26,4 @@ Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])
 
 Route::get('/notas', [NotaController::class, 'index'])->name('notas.index');
 Route::post('/notas', [NotaController::class, 'store'])->name('notas.store');
+Route::resource('notas', NotaController::class);
