@@ -54,6 +54,5 @@ class User extends Authenticatable
     public function notas()
     {
         return $this->hasMany(Nota::class);
-    }
-
+    }
 }
