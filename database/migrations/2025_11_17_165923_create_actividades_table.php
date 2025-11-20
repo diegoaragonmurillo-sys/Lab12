@@ -14,18 +14,18 @@ return new class extends Migration
         Schema::create('actividades', function (Blueprint $table) {
             $table->id();
 
-            // FK a notas
+            
             $table->foreignId('nota_id')
-                  ->constrained('notas')   // nombre de la tabla notas
-                  ->onDelete('cascade');   // si se borra la nota, se borran sus actividades
+                  ->constrained('notas')   
+                  ->onDelete('cascade');   
 
             $table->text('descripcion');
-            $table->string('estado')->default('pendiente'); // o el valor que quieras por defecto
+            $table->string('estado')->default('pendiente'); 
 
             $table->date('fecha_inicio')->nullable();
             $table->date('fecha_fin')->nullable();
 
-            $table->timestamps(); // created_at, updated_at
+            $table->timestamps(); 
         });
     }
 
