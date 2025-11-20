@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
+
+
 use App\Models\Nota;
 use App\Models\Actividad;
 use Illuminate\Http\Request;
 
 class ActividadController extends Controller
 {
-    /**
-     * Mostrar todas las actividades de una nota
-     */
+
     public function index($nota_id)
     {
         $nota = Nota::findOrFail($nota_id);
@@ -19,9 +19,6 @@ class ActividadController extends Controller
         return view('actividades.index', compact('nota', 'actividades'));
     }
 
-    /**
-     * Guardar una actividad nueva
-     */
     public function store(Request $request, $nota_id)
     {
         $request->validate([
@@ -42,9 +39,6 @@ class ActividadController extends Controller
         return redirect()->back()->with('success', 'Actividad creada correctamente.');
     }
 
-    /**
-     * Mostrar el formulario de edición
-     */
     public function edit($id)
     {
         $actividad = Actividad::findOrFail($id);
@@ -52,9 +46,6 @@ class ActividadController extends Controller
         return view('actividades.edit', compact('actividad'));
     }
 
-    /**
-     * Actualizar actividad
-     */
     public function update(Request $request, $id)
     {
         $actividad = Actividad::findOrFail($id);
@@ -78,9 +69,6 @@ class ActividadController extends Controller
             ->with('success', 'Actividad actualizada correctamente.');
     }
 
-    /**
-     * Eliminar actividad
-     */
     public function destroy($id)
     {
         $actividad = Actividad::findOrFail($id);
