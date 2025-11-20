@@ -104,8 +104,28 @@ class NotaController extends Controller
             abort(403, 'No tienes permiso para eliminar esta nota.');
         }
 
-        $nota->delete();
+        \DB::transaction(function () use ($nota) {
 
-        return redirect()->route('notas.index')->with('success', 'Nota eliminada correctamente');
+            // 1. Borrar actividades ligadas a la nota
+            // Si el modelo Actividad usa SoftDeletes, usa forceDelete():
+            // $nota->actividades()->forceDelete();
+            $nota->actividades()->delete();
+
+            // 2. Borrar recordatorio (si existe)
+            if ($nota->recordatorio) {
+                // Igual: si Recordatorio usa SoftDeletes:
+                // $nota->recordatorio()->forceDelete();
+                $nota->recordatorio()->delete();
+            }
+
+            // 3. Borrar la nota DEFINITIVAMENTE de la tabla
+            $nota->forceDelete();   // 👈 CLAVE: ya no solo delete(), sino forceDelete()
+        });
+
+        return redirect()
+            ->route('notas.index')
+            ->with('success', 'Nota, recordatorio y actividades eliminadas correctamente');
     }
+
+
 }

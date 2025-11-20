@@ -21,6 +21,11 @@
     <div class="mt-3">
         <a href="{{ route('notas.edit', $nota->id) }}" class="btn btn-secondary">Editar</a>
         <a href="{{ route('notas.index') }}" class="btn btn-outline-primary">Volver al listado</a>
+        <a href="{{ route('actividades.index', $nota->id) }}" class="btn btn-info ms-2">
+            Ver Actividades
+        </a>
+
+
     </div>
 </div>
 @endsection
