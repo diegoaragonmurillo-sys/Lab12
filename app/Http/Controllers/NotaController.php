@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Nota;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -34,7 +33,6 @@ class NotaController extends Controller
             'fecha_vencimiento' => 'required|date|after:now',
         ]);
 
-        // Solo permitir crear notas para sí mismo
         if (auth()->id() != $validated['user_id']) {
             abort(403, 'No puedes crear notas para otros usuarios.');
         }
@@ -106,20 +104,16 @@ class NotaController extends Controller
 
         \DB::transaction(function () use ($nota) {
 
-            // 1. Borrar actividades ligadas a la nota
-            // Si el modelo Actividad usa SoftDeletes, usa forceDelete():
-            // $nota->actividades()->forceDelete();
+
             $nota->actividades()->delete();
 
-            // 2. Borrar recordatorio (si existe)
+
             if ($nota->recordatorio) {
-                // Igual: si Recordatorio usa SoftDeletes:
-                // $nota->recordatorio()->forceDelete();
+
                 $nota->recordatorio()->delete();
             }
 
-            // 3. Borrar la nota DEFINITIVAMENTE de la tabla
-            $nota->forceDelete();   // 👈 CLAVE: ya no solo delete(), sino forceDelete()
+            $nota->forceDelete();  
         });
 
         return redirect()
